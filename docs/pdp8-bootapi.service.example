@@ -1,0 +1,22 @@
+# Example systemd unit for pdp8-bootapi.py -- runs ON THE MACHINE whose
+# terminal you want the agent to be able to read/type into (for the PiDP-8/I
+# that's the Pi driving the replica itself). Needs the `screen` package and
+# read/write access to the `screen` session your simulator console runs in.
+#
+# Copy to /etc/systemd/system/pdp8-bootapi.service, adjust the path/user,
+# then:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now pdp8-bootapi
+
+[Unit]
+Description=PiDP-8/I boot-API (screen bridge for the Hacker Replicant)
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/pdp8-hacker-replicant/pdp8-bootapi.py
+Restart=always
+RestartSec=5
+User=pi
+
+[Install]
+WantedBy=multi-user.target
